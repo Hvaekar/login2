@@ -27,9 +27,9 @@ func GenerateToken(c *gin.Context) {
 	}
 
 	// Проверяем email на наличие в БД
-	stmt := "SELECT password FROM users WHERE email = ?"
+	stmt := "SELECT password, username FROM users WHERE email = ?"
 	row := mysql.DB.QueryRow(stmt, req.Email)
-	if err := row.Scan(&user.Password); err != nil {
+	if err := row.Scan(&user.Password, &user.Username); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		c.Abort()
 		return
@@ -43,7 +43,7 @@ func GenerateToken(c *gin.Context) {
 	}
 
 	// Генерируем JWT-токен, если все нормально
-	token, err := auth.GenerateJWT(user.Email, user.Password)
+	token, err := auth.GenerateJWT(user.Email, user.Username)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		c.Abort()
@@ -51,5 +51,7 @@ func GenerateToken(c *gin.Context) {
 	}
 
 	// Отправляем ответ, если все норм
-	c.JSON(http.StatusOK, gin.H{"token": token})
+	c.JSON(http.StatusOK, gin.H{
+		"token": token,
+	})
 }
