@@ -5,10 +5,6 @@ import (
 	"login2/middlewares"
 )
 
-type Handler struct {
-
-}
-
 // Инициализая маршрутизатора и обработка путей
 func InitRoutes() *gin.Engine {
 	router := gin.Default() // Создания маршрутизатора

@@ -5,7 +5,7 @@ import (
 	"github.com/spf13/viper"
 	"log"
 	"login2/internal/handler"
-	"login2/pkg/models/mysql"
+	"login2/pkg/mysql"
 )
 
 func main() {

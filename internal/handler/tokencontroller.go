@@ -4,7 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"login2/auth"
 	"login2/pkg/models"
-	"login2/pkg/models/mysql"
+	"login2/pkg/mysql"
 	"net/http"
 )
 
