@@ -4,7 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 	_ "github.com/go-sql-driver/mysql"
 	"login2/pkg/models"
-	"login2/pkg/models/mysql"
+	"login2/pkg/mysql"
 	"net/http"
 )
 
@@ -15,14 +15,14 @@ func register(c *gin.Context) {
 	// Принимаем JSON-формат и записываем его с переменную user
 	if err := c.ShouldBindJSON(&user); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()}) // Возврат ошибки и информации о ней d JSON-формате
-		c.Abort() // Прерывание контекста
+		c.Abort()                                                  // Прерывание контекста
 		return
 	}
 
 	// Шифруем пароль для последующего добавления в БД
 	if err := user.HashPassword(user.Password); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()}) // Возврат ошибки и информации о ней в JSON
-		c.Abort() // Прерывание контекста
+		c.Abort()                                                           // Прерывание контекста
 		return
 	}
 
@@ -44,21 +44,3 @@ func register(c *gin.Context) {
 		"email":    user.Email,
 	})
 }
-
-//func (h *Handler) logUp(c *gin.Context) {
-//	var data map[string]string
-//
-//	if err := c.BindJSON(&data); err != nil {
-//		//
-//	}
-//
-//	password, _ := bcrypt.GenerateFromPassword([]byte(data["password"]), 14)
-//
-//	user := models.User{
-//		Username: data["name"],
-//		Email: data["email"],
-//		Password: password,
-//	}
-//
-//	//return c.JSON(user)
-//}
