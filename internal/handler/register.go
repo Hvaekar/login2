@@ -36,6 +36,11 @@ func register(c *gin.Context) {
 	}
 	// Вытаскиваем id и записываем в поле объекта
 	id, err := res.LastInsertId()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		c.Abort()
+		return
+	}
 	user.Id = id
 	// Выводим результат в виде JSON
 	c.JSON(http.StatusCreated, gin.H{
